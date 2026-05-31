@@ -1,0 +1,26 @@
+{
+  "settings": {
+    "DATASET": "bikedekho-small",
+    "DATASET_SIZE": 500,
+    "REDUCER_SIZE": 200,
+    "P_PRIME": 3
+  },
+  "results": {
+    "naive": {
+      "pairs_found": 3405,
+      "time": 0.7011733055114746
+    },
+    "group": {
+      "pairs_found": 3405,
+      "time": 0.31743311882019043
+    },
+    "sql": {
+      "pairs_found": 3405,
+      "time": 0.36676836013793945
+    },
+    "afrati": {
+      "pairs_found": 3405,
+      "time": 0.23939132690429688
+    }
+  }
+}
