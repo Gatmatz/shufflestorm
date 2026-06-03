@@ -1,7 +1,8 @@
-"""Shared utilities for Spark jobs."""
-
+import json
 from pyspark.sql import SparkSession
 from pyspark import RDD
+import urllib.request
+from pathlib import Path
 
 def get_spark_session(app_name: str = "spark-app", master: str = "local[*]", config: dict = None) -> SparkSession:
     """
@@ -38,3 +39,32 @@ def clear_spark_cache(spark: SparkSession, data_rdd: RDD):
     """
     spark.catalog.clearCache()
     data_rdd.unpersist()
+    
+def get_spark_metrics(spark):
+    """Fetches and computes Spark execution metrics (tasks, shuffle read/write bytes) from the Spark UI REST API."""
+    try:
+        ui_url = spark.sparkContext.uiWebUrl
+        app_id = spark.sparkContext.applicationId
+        print(f"Fetching metrics from Spark UI at {ui_url} for application {app_id}")
+        url = f"{ui_url}/api/v1/applications/{app_id}/stages"
+        req = urllib.request.Request(url)
+        with urllib.request.urlopen(req) as response:
+            stages = json.loads(response.read().decode())
+        
+        total_tasks = 0
+        total_shuffle_read = 0
+        total_shuffle_write = 0
+        
+        for stage in stages:
+            total_tasks += stage.get('numTasks', 0)
+            total_shuffle_read += stage.get('shuffleReadBytes', 0)
+            total_shuffle_write += stage.get('shuffleWriteBytes', 0)
+            
+        return total_tasks, total_shuffle_read, total_shuffle_write
+    except Exception as e:
+        print(f"Error fetching metrics: {e}")
+        return 0, 0, 0
+
+def persist_spark():
+    """Persist script execution to check Spark UI metrics"""
+    input("Press Enter to exit the script...")

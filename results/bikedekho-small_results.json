@@ -8,19 +8,27 @@
   "results": {
     "naive": {
       "pairs_found": 3405,
-      "time": 0.7011733055114746
+      "time": 0.7073080539703369,
+      "total_tasks": 1,
+      "shuffle_volume_bytes": 0
     },
     "group": {
       "pairs_found": 3405,
-      "time": 0.31743311882019043
+      "time": 0.3215978145599365,
+      "total_tasks": 3,
+      "shuffle_volume_bytes": 63240
     },
     "sql": {
       "pairs_found": 3405,
-      "time": 0.36676836013793945
+      "time": 0.32533836364746094,
+      "total_tasks": 4,
+      "shuffle_volume_bytes": 118
     },
     "afrati": {
       "pairs_found": 3405,
-      "time": 0.23939132690429688
+      "time": 0.220902681350708,
+      "total_tasks": 3,
+      "shuffle_volume_bytes": 72254
     }
   }
 }

@@ -1,12 +1,15 @@
 from pyspark.rdd import RDD
 
 def create_group_functions(total_rows: int, group_size: int):
+    """Creates and returns the mapper and reducer functions for group-based matching."""
     desired_groups = (total_rows + group_size - 1) // group_size
     
     def get_group_id(record_id: int) -> int:
+        """Calculates the group ID for a specific record based on group size."""
         return (record_id // group_size) + 1
 
     def group_mapper(record):
+        """Maps a record to multiple groups to ensure all group pairs are compared."""
         record_id = record[0]
         g_i = get_group_id(record_id)
 
@@ -18,6 +21,7 @@ def create_group_functions(total_rows: int, group_size: int):
         return emits  # replication rate = g-1
 
     def group_reducer(group_data):
+        """Reduces group data to yield matching record pairs, with duplicates handled later in the pipeline."""
         key, records = group_data
         records = list(records)
 
@@ -34,6 +38,7 @@ def create_group_functions(total_rows: int, group_size: int):
 
 
 def run_group_matching(data_rdd: RDD, total_rows: int, group_size: int = 100):
+    """Executes the group-based matching strategy on the provided RDD."""
     mapper, reducer = create_group_functions(total_rows, group_size)
 
     return (

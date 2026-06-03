@@ -3,33 +3,33 @@ import time
 
 def run_sql_matching(spark: SparkSession, dataframe: DataFrame, explain: bool = True) -> DataFrame:
     """
-    SQL-based matching solution that finds bike names with exact matches between datasets.
+    SQL-based matching solution that finds names with exact matches between datasets.
     
     Args:
         spark: SparkSession object
         explain: If True, prints the physical execution plan
     
     Returns:
-        DataFrame containing matching bike names from both datasets
+        DataFrame containing matching names from both datasets
     """
 
     # Create temporary SQL views
-    dataframe.createOrReplaceTempView("bikes")
+    dataframe.createOrReplaceTempView("datasets")
 
     # Execute SQL query to find exact matches
     query = """
     SELECT 
-        b1.id AS rdd1_id, 
-        b1.name AS bike1_name, 
-        b2.id AS rdd2_id, 
-        b2.name AS bike2_name
+        d1.id AS rdd1_id, 
+        d1.name AS dataset1_name, 
+        d2.id AS rdd2_id, 
+        d2.name AS dataset2_name
     FROM 
-        bikes b1
+        datasets d1
     CROSS JOIN 
-        bikes b2
+        datasets d2
     WHERE 
-        b1.id < b2.id 
-        AND b1.name = b2.name
+        d1.id < d2.id 
+        AND d1.name = d2.name
     """
     
     result = spark.sql(query)

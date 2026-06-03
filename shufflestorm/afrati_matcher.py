@@ -3,9 +3,11 @@ from pyspark.sql import SparkSession
 
 def create_afrati_functions(p: int, d: int):
     """
+    Creates and returns the mapper and reducer functions for the Afrati-Ullmann matching algorithm.
+    
     - d inputs split into p^2 groups arranged in a p x p grid
     - p+1 teams of p reducers each → p(p+1) reducers total
-    - Replication rate: r = p+1  (vs. ~2d/q in the naive version)
+    - Replication rate: r = p+1
     - Reducer size: q = d/p
     - Requires p to be prime and p^2 to divide d
     """
@@ -15,6 +17,7 @@ def create_afrati_functions(p: int, d: int):
 
     def get_group(record_id):
         """
+        Determines the grid cell (i, j) for a given record_id.
         Distribute records into p^2 groups, last group absorbs remainder.
         Divide the d inputs into p² equal-sized groups arranged in a square, p on a side. 
         The group in row i and column j is represented by (i, j).
@@ -23,6 +26,7 @@ def create_afrati_functions(p: int, d: int):
         return group_index // p, group_index % p
 
     def afrati_mapper(record):
+        """Maps a record to multiple reducers based on the Afrati-Ullmann grid allocation strategy."""
         record_id = record[0]
         i, j = get_group(record_id)
         emits = []
@@ -38,6 +42,7 @@ def create_afrati_functions(p: int, d: int):
         return emits  # exactly p+1 emits per record → replication rate = p+1
 
     def afrati_reducer(group_data):
+        """Reduces group data by yielding pairs of matching records within the same group."""
         key, records = group_data
         records = list(records)
 
@@ -53,6 +58,7 @@ def create_afrati_functions(p: int, d: int):
 
 def run_afrati_matching(data_rdd: RDD, p: int, d: int):
     """
+    Executes the Afrati-Ullmann matching algorithm on the given RDD.
     p must be prime. Replication rate will be p+1 ≈ d/q + 1,
     matching the lower bound.
     """
