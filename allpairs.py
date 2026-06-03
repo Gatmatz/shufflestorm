@@ -7,7 +7,7 @@ from shufflestorm.group_matcher import run_group_matching
 from shufflestorm.sql_matcher import run_sql_matching
 from shufflestorm.afrati_matcher import run_afrati_matching
 from shufflestorm.config import settings
-from shufflestorm.utils import persist_spark
+from shufflestorm.utils import spark_ui
 
 def main():
     # Initialize Spark Session locally using all available cores
@@ -87,7 +87,7 @@ def main():
     # =================== 3. Test Spark SQL & Optimizer ===================
     time.sleep(1)
     metrics_before = get_spark_metrics(spark)
-    sql_res = run_sql_matching(spark=spark, dataframe=dataframe, explain=True)
+    sql_res = run_sql_matching(spark=spark, dataframe=dataframe, explain=False)
     start = time.time()
     sql_count = sql_res.count()
     sql_time = time.time() - start
@@ -138,7 +138,7 @@ def main():
     
     print(f"\nResults saved to {results_file}")
     
-    # persist_spark()  # Keep Spark session alive to check metrics in UI before stopping
+    # spark_ui()  # Keep Spark session alive to check metrics in UI before stopping
 
     spark.stop()
 

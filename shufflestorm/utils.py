@@ -45,7 +45,6 @@ def get_spark_metrics(spark):
     try:
         ui_url = spark.sparkContext.uiWebUrl
         app_id = spark.sparkContext.applicationId
-        print(f"Fetching metrics from Spark UI at {ui_url} for application {app_id}")
         url = f"{ui_url}/api/v1/applications/{app_id}/stages"
         req = urllib.request.Request(url)
         with urllib.request.urlopen(req) as response:
@@ -65,6 +64,6 @@ def get_spark_metrics(spark):
         print(f"Error fetching metrics: {e}")
         return 0, 0, 0
 
-def persist_spark():
+def spark_ui():
     """Persist script execution to check Spark UI metrics"""
     input("Press Enter to exit the script...")
