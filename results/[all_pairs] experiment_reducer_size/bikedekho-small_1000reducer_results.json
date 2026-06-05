@@ -1,0 +1,34 @@
+{
+  "settings": {
+    "DATASET": "bikedekho-small",
+    "DATASET_SIZE": 500,
+    "REDUCER_SIZE": 1000,
+    "P_PRIME": 3
+  },
+  "results": {
+    "naive": {
+      "pairs_found": 124750,
+      "time": 0.6907556056976318,
+      "total_tasks": 1,
+      "shuffle_volume_bytes": 0
+    },
+    "group": {
+      "pairs_found": 0,
+      "time": 1.4275541305541992,
+      "total_tasks": 201,
+      "shuffle_volume_bytes": 0
+    },
+    "sql": {
+      "pairs_found": 124750,
+      "time": 0.26871514320373535,
+      "total_tasks": 3,
+      "shuffle_volume_bytes": 118
+    },
+    "afrati": {
+      "pairs_found": 124750,
+      "time": 1.3047270774841309,
+      "total_tasks": 201,
+      "shuffle_volume_bytes": 6238674
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "settings": {
+    "RELATION_SIZE": 100000,
+    "B": 24,
+    "C": 24,
+    "NUMBER_OF_REDUCERS": 24
+  },
+  "results": {
+    "ternary": {
+      "rows": 9900000,
+      "time": 9.72628664970398,
+      "total_tasks": 96,
+      "shuffle_volume_bytes": 53141488
+    },
+    "binary": {
+      "rows": 9900000,
+      "time": 9.844446897506714,
+      "total_tasks": 120,
+      "shuffle_volume_bytes": 126096688
+    },
+    "sql": {
+      "rows": 9900000,
+      "time": 0.4173402786254883,
+      "total_tasks": 49,
+      "shuffle_volume_bytes": 2694
+    }
+  }
+}
