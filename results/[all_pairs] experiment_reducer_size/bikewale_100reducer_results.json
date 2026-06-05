@@ -1,0 +1,34 @@
+{
+  "settings": {
+    "DATASET": "bikewale",
+    "DATASET_SIZE": 9003,
+    "REDUCER_SIZE": 100,
+    "P_PRIME": 3
+  },
+  "results": {
+    "naive": {
+      "pairs_found": 40522503,
+      "time": 20.8038969039917,
+      "total_tasks": 1,
+      "shuffle_volume_bytes": 0
+    },
+    "group": {
+      "pairs_found": 40522503,
+      "time": 118.78405094146729,
+      "total_tasks": 201,
+      "shuffle_volume_bytes": 2178404176
+    },
+    "sql": {
+      "pairs_found": 40522503,
+      "time": 0.42049646377563477,
+      "total_tasks": 3,
+      "shuffle_volume_bytes": 118
+    },
+    "afrati": {
+      "pairs_found": 40522503,
+      "time": 422.67196393013,
+      "total_tasks": 201,
+      "shuffle_volume_bytes": 2624200474
+    }
+  }
+}

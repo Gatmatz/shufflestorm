@@ -55,14 +55,14 @@ uv run triplejoin.py
 Or use the Jupyter notebook for an interactive, step-by-step experience:
 
 ```bash
-jupyter notebook shufflestorm_runner.ipynb
+jupyter notebook shufflestorm.ipynb
 ```
 
 ## Configuration
 
 ### Part 1
 
-Edit [`shufflestorm/config/settings.py`](./shufflestorm/config/settings.py) to change:
+Edit [`shufflestorm/config/configurations.py`](./shufflestorm/config/configurations.py) to change:
 
 - **`DATASET`** / **`DATASET_SIZE`** — choose between `bikewale`, `bikedekho`, `bikedekho-small`, or `citeseer`.
 - **`REDUCER_SIZE`** — group size for the group-based matcher.
@@ -70,28 +70,30 @@ Edit [`shufflestorm/config/settings.py`](./shufflestorm/config/settings.py) to c
 
 ### Part 2
 
-Edit the `RELATION_SIZE` variable at the top of [`triplejoin.py`](./triplejoin.py) to set how many rows each relation (A, B, C) will contain.
+Edit the `RELATION_SIZE` variable in [`shufflestorm/config/configurations.py`](./shufflestorm/config/configurations.py) to set how many rows each relation (A, B, C) will contain. You can also adjust `NUMBER_OF_REDUCERS`, `B`, and `C` values in the same file.
 
 ## Project Structure
 
-```
+```text
 ├── allpairs.py                  # Entry point — Part 1 (All Pairs)
 ├── triplejoin.py                # Entry point — Part 2 (Triple Join)
-├── shufflestorm_runner.ipynb    # Jupyter notebook for interactive execution & visualization
+├── shufflestorm.ipynb           # Jupyter notebook for interactive execution & visualization
 ├── pyproject.toml               # Dependencies (pyspark, numpy, pandas, …)
 ├── data/                        # CSV datasets (bikewale, bikedekho, citeseer)
 ├── results/                     # JSON output with benchmark metrics
 └── shufflestorm/                # Core package
-    ├── config/settings.py       # Dataset & algorithm parameters
+    ├── config/configurations.py # Dataset & algorithm parameters
     ├── preprocessing/           # CSV cleaning & formatting
-    ├── naive_matcher.py         # Naïve pairwise strategy
-    ├── group_matcher.py         # Group-based strategy
-    ├── sql_matcher.py           # Spark SQL strategy (All Pairs)
-    ├── afrati_matcher.py        # Afrati-Ullman strategy
-    ├── data_generator.py        # Generates relations A(x,y), B(y,z), C(z,w)
-    ├── ternary_join.py          # Direct ternary join
-    ├── binary_join.py           # Two consecutive binary joins
-    ├── sql_join.py              # SQL-based ternary join
+    │   └── synthetic_data_generator.py # Generates relations A(x,y), B(y,z), C(z,w)
+    ├── matchers/                # Similarity matching implementations
+    │   ├── naive_matcher.py     # Naïve pairwise strategy
+    │   ├── group_matcher.py     # Group-based strategy
+    │   ├── sql_matcher.py       # Spark SQL strategy (All Pairs)
+    │   └── afrati_matcher.py    # Afrati-Ullman strategy
+    ├── join/                    # Join implementations
+    │   ├── ternary_join.py      # Direct ternary join
+    │   ├── binary_join.py       # Two consecutive binary joins
+    │   └── sql_join.py          # SQL-based ternary join
     └── utils.py                 # Spark session helpers & metrics collection
 ```
 
