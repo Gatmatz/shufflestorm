@@ -14,7 +14,7 @@ DATASET = "bikewale"
 DATASET_SIZE = 9003
 
 # For Group-Based Matcher
-REDUCER_SIZE = 100
+REDUCER_SIZE = 500
 
 # For Afrati-Ullman Model
 P_PRIME = 3 # might change to 5
@@ -25,4 +25,4 @@ RELATION_SIZE = 100000  # Number of rows for each of A, B, C
 # Number of reducers for the ternary join
 B = 10
 C = 10
-NUMBER_OF_REDUCERS = 100
+NUMBER_OF_REDUCERS = 1000
